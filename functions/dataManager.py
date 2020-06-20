@@ -10,7 +10,7 @@ import glob
 
 #function to import and prepare test data
 
-def importTestData(path, look_back, dropin, dropout):
+def importTestData(path, look_back, drop):
 
     # # PREDICTION DATA
 
@@ -22,14 +22,14 @@ def importTestData(path, look_back, dropin, dropout):
     for csv in test_files:
         pred_data = pd.read_csv(csv, sep=';', encoding='cp1252')
 
-        pred_input = pred_data.drop(columns=dropin, index=0)
+        pred_input = pred_data.drop(columns=drop, index=0)
         pred_input = pred_input.drop(pred_input.index[0:look_back])
 
         pred_input = pred_input.values
         pred_input = np.array(np.reshape(pred_input, (pred_input.shape[0], 1, pred_input.shape[1])), dtype='float')
         t_step = pred_input.shape[0]
 
-        pred_output = pred_data.drop(columns=dropout, index=0)
+        pred_output = pred_data.drop(columns=drop, index=0)
         pred_output = pred_output.shift(look_back)
         pred_output = pred_output.drop(pred_output.index[0:look_back])
         pred_output = pred_output.values
@@ -43,7 +43,7 @@ def importTestData(path, look_back, dropin, dropout):
 
 # function to import and prepare train data
 
-def importTrainData(path, look_back, t_step, dropin, dropout,inout):
+def importTrainData(path, look_back, t_step, drop,inout):
     # # TRAINING DATA
 
     #Introduce the path and count files
@@ -65,8 +65,8 @@ def importTrainData(path, look_back, t_step, dropin, dropout,inout):
     for csv in train_files:
         matrix = pd.read_csv(csv, sep=';', encoding='cp1252')
 
-        matrixin = matrix.drop(columns=dropin, index=0)
-        matrixout = matrix.drop(columns=dropout, index=0)
+        matrixin = matrix.drop(columns=drop, index=0)
+        matrixout = matrix.drop(columns=drop, index=0)
 
         matrixin = matrixin.astype(float)
         matrixout = matrixout.astype(float)
