@@ -1,29 +1,10 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 from sklearn.metrics import mean_squared_error
-from tensorflow.keras.callbacks import Callback
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import warnings
 from math import sqrt
 import glob
-
-class EarlyStoppingByLossVal(Callback):
-    def __init__(self, monitor='val_loss', value=0.00001, verbose=0):
-        super(Callback, self).__init__()
-        self.monitor = monitor
-        self.value = value
-        self.verbose = verbose
-
-    def on_epoch_end(self, epoch, logs={}):
-        current = logs.get(self.monitor)
-        if current is None:
-            warnings.warn("Early stopping requires %s available!" % self.monitor, RuntimeWarning)
-
-        if current < self.value:
-            if self.verbose > 0:
-                print("Epoch %05d: early stopping THR" % epoch)
-            self.model.stop_training = True
 
 # # DATA MANAGER: Define a function that imports and defines data
 
