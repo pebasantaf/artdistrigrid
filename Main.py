@@ -1,5 +1,5 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.models import Sequential
 from tensorflow.keras import layers, optimizers
 import time
@@ -34,7 +34,7 @@ l2 = model.add(layers.TimeDistributed(layers.Dense(5)))
 l3 = model.add(layers.Dropout(0.2))
 l4 = model.add(layers.Dense(inout[1])) #fully connected layer. What i would understand as a normal layer
 
-opt = optimizers.RMSprop(lr=1e-03) #how fast the learning rate decays. this helps finding the miminum better
+opt = optimizers.Adam(lr=1e-03) #how fast the learning rate decays. this helps finding the miminum better
 
 callbacks = [EarlyStoppingByLossVal(monitor='val_loss', value=0.002)]
      #ModelCheckpoint(filepath=model_path.format(int(time.time())), save_best_only=True)]
@@ -48,6 +48,6 @@ history = model.fit(X, Y, epochs=epochs, validation_split=validation_split, call
 
 model.save(model_path.format(int(time.time())))
 
-fig1, fig2 = TestPlot(model, Tests)
+fig1, fig2, RMSE = TestPlot(model, Tests)
 
 fig3 = evaluateTraining(history)
