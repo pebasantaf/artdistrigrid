@@ -10,6 +10,7 @@ def TestPlot(model, tests):
     t = 1
     fig1 = plt.figure()
     fig2 = plt.figure()
+    RMSE = []
 
     for te in tests:
         NN_pred = model.predict(te[0], batch_size=1)
@@ -39,6 +40,7 @@ def TestPlot(model, tests):
 
         # mean squared error
         rmse = sqrt(mean_squared_error(te[1], NN_pred))
+        RMSE.append(rmse)
         print('Test RMSE: %.3f' % rmse)
 
         t = t + 1
@@ -67,7 +69,7 @@ def TestPlot(model, tests):
 
             printin = input('Answer not valid. Print inputs? [y/n]: ')
         '''
-    return fig1, fig2
+    return fig1, fig2, RMSE
 
 def evaluateTraining(history):
     fig3 = plt.figure()
